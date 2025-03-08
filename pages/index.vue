@@ -1,5 +1,6 @@
 <script setup lang="ts">
-await useFetch("/api/test");
+const { data } = await useFetch("/api/test");
+console.log("data", data.value);
 </script>
 
 <template>
