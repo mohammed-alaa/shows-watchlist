@@ -15,5 +15,6 @@ export default defineNuxtConfig({
 			],
 		},
 	},
+	nitro: { preset: "vercel" },
 	extensions: [".ts", ".vue"],
 });
