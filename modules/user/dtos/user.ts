@@ -9,8 +9,7 @@ export default class {
 
 	public static fromDb(user: TUserWithPassword) {
 		const _user = new this(user.email, user.name, user.password);
-		_user.id = user.id;
-		return _user;
+		return _user.setId(user.id);
 	}
 
 	public setPassword(password: string) {
