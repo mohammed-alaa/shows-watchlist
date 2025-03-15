@@ -10,6 +10,7 @@
 		"postinstall": "nuxt prepare",
 		"db:generate": "npx drizzle-kit generate",
 		"db:migrate": "npx rizzle-kit migrate"
+		"db:migrate": "npx drizzle-kit migrate"
 	},
 	"dependencies": {
 		"drizzle-orm": "^0.40.0",
