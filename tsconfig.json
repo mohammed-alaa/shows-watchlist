@@ -1,4 +1,9 @@
 {
 	"extends": "./.nuxt/tsconfig.json",
-	"includes": ["types/*.d.ts"]
+	"includes": ["types/*.d.ts"],
+	"compilerOptions": {
+		"paths": {
+			"@schemas/*": ["./schemas/*"]
+		}
+	}
 }
