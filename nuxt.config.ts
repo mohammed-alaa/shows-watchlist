@@ -1,3 +1,5 @@
+import { resolve } from "path";
+
 export default defineNuxtConfig({
 	compatibilityDate: "2024-11-01",
 	devtools: { enabled: true },
@@ -15,6 +17,7 @@ export default defineNuxtConfig({
 		},
 	},
 	runtimeConfig: {
+		PASSWORD_ROUNDS: process.env.PASSWORD_ROUNDS,
 		public: {
 			APP_URL: process.env.APP_URL,
 		},
@@ -24,5 +27,7 @@ export default defineNuxtConfig({
 	modules: ["@nuxtjs/tailwindcss"],
 	alias: {
 		"@schemas": resolve(__dirname, "schemas"),
+		"@modules": resolve(__dirname, "modules"),
+		"@utils": resolve(__dirname, "utils"),
 	},
 });

@@ -3,7 +3,9 @@
 	"includes": ["../types/*.d.ts"],
 	"compilerOptions": {
 		"paths": {
-			"@schemas/*": ["../schemas/*"]
+			"@schemas/*": ["../schemas/*"],
+			"@modules/*": ["../modules/*"],
+			"@utils/*": ["../utils/*"]
 		}
 	}
 }
