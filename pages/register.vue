@@ -25,7 +25,7 @@ const { data, errors, submit, setErrors } = useForm<TRegisterPayload>({
 			);
 			navigateTo({ name: "login" });
 		} catch (error: any) {
-			setErrors(error.data.errors);
+			setErrors((error.data as TRegisterResponsePayload).errors);
 		}
 	},
 });
