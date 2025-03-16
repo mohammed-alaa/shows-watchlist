@@ -24,4 +24,12 @@ export default class {
 		this.id = id;
 		return this;
 	}
+
+	public withoutPassword(): TUser {
+		return {
+			id: this.getId()!,
+			name: this.name,
+			email: this.email,
+		};
+	}
 }
