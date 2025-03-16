@@ -25,7 +25,7 @@ export default defineNuxtConfig({
 	},
 	nitro: { preset: "vercel" },
 	extensions: [".ts", ".vue"],
-	modules: ["@nuxtjs/tailwindcss"],
+	modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt"],
 	alias: {
 		"@schemas": resolve(__dirname, "schemas"),
 		"@modules": resolve(__dirname, "modules"),

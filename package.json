@@ -12,10 +12,12 @@
 		"db:migrate": "npx drizzle-kit migrate"
 	},
 	"dependencies": {
+		"@pinia/nuxt": "0.10.1",
 		"bcrypt": "^5.1.1",
 		"drizzle-orm": "^0.40.0",
 		"jsonwebtoken": "^9.0.2",
 		"nuxt": "^3.16.0",
+		"pinia": "^3.0.1",
 		"postgres": "^3.4.5",
 		"vue": "^3.5.13",
 		"vue-router": "^4.5.0",
@@ -23,8 +25,8 @@
 	},
 	"devDependencies": {
 		"@nuxtjs/tailwindcss": "6.13.2",
-		"@types/jsonwebtoken": "^9.0.9",
 		"@types/bcrypt": "^5.0.2",
+		"@types/jsonwebtoken": "^9.0.9",
 		"drizzle-kit": "^0.30.5",
 		"tsx": "^4.19.3"
 	},
