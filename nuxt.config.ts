@@ -30,5 +30,6 @@ export default defineNuxtConfig({
 		"@schemas": resolve(__dirname, "schemas"),
 		"@modules": resolve(__dirname, "modules"),
 		"@utils": resolve(__dirname, "utils"),
+		"@constants": resolve(__dirname, "constants.ts"),
 	},
 });

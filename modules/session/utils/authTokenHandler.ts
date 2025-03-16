@@ -1,23 +1,13 @@
 import { createHmac, createSecretKey, randomBytes } from "crypto";
-
-const ENCODING = "utf8";
-const TOKEN_BUILD_WORD = "Bearer ";
-const HMAC_ALGORITHM = "sha512";
-const TOKEN_ENCODING = "base64";
+import { AUTH_TOKEN_GENERATOR } from "@constants";
 
 export function createToken(secret: string, passwordRounds: number) {
-	const secretKey = createSecretKey(secret, ENCODING);
-	const randomString = randomBytes(passwordRounds).toString(ENCODING);
+	const secretKey = createSecretKey(secret, AUTH_TOKEN_GENERATOR.ENCODING);
+	const randomString = randomBytes(passwordRounds).toString(
+		AUTH_TOKEN_GENERATOR.ENCODING,
+	);
 
-	return createHmac(HMAC_ALGORITHM, secretKey)
+	return createHmac(AUTH_TOKEN_GENERATOR.HMAC_ALGORITHM, secretKey)
 		.update(randomString)
-		.digest(TOKEN_ENCODING);
-}
-
-export function buildToken(token: string) {
-	return TOKEN_BUILD_WORD + token;
-}
-
-export function cleanToken(token: string) {
-	return token.replace(TOKEN_BUILD_WORD, "");
+		.digest(AUTH_TOKEN_GENERATOR.TOKEN_ENCODING);
 }
