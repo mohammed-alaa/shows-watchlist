@@ -1,4 +1,4 @@
-import { AUTH_COOKIE_NAME, API_ROUTES } from "@constants";
+import { AUTH, API_ROUTES } from "@constants";
 
 export const useAuthStore = defineStore("auth", () => {
 	const user = ref<TUser | null>(null);
@@ -54,7 +54,7 @@ export const useAuthStore = defineStore("auth", () => {
 	}
 
 	async function init() {
-		const cookie = useCookie(AUTH_COOKIE_NAME);
+		const cookie = useCookie(AUTH.COOKIE_NAME);
 
 		if (!cookie.value) {
 			return;
