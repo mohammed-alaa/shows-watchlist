@@ -2,6 +2,7 @@
 import loginFormSchema from "@schemas/loginForm";
 
 const { isLoading, withLoading } = useLoading();
+const { login } = useAuthStore();
 
 const { data, errors, submit, setErrors } = useForm<TLoginPayload>({
 	schema: loginFormSchema,
@@ -15,14 +16,10 @@ const { data, errors, submit, setErrors } = useForm<TLoginPayload>({
 		}
 
 		try {
-			await withLoading(() =>
-				$fetch("/api/login", {
-					method: "POST",
-					body: data,
-				}),
-			);
+			await withLoading(() => login(data));
+			navigateTo({ name: "index" });
 		} catch (error: any) {
-			setErrors((error.data as TLoginResponsePayload).errors);
+			setErrors((error.data as TLoginResponsePayload).errors!);
 		}
 	},
 });
