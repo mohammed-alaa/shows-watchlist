@@ -1,6 +1,7 @@
 import { validateScehma } from "@utils/schemaValidator";
 import { getByEmail } from "@modules/user/actions/getUser";
 import loginFormSchema from "@schemas/loginForm";
+import createSession from "@modules/session/actions/createSession";
 
 export default defineEventHandler(
 	async (event): Promise<TLoginResponsePayload | undefined> => {
@@ -38,6 +39,9 @@ export default defineEventHandler(
 			};
 		}
 
-		setResponseStatus(event, 200);
+		const authToken = await createSession(existingUser.getId()!);
+
+		setResponseHeader(event, "Authorization", authToken);
+		sendNoContent(event);
 	},
 );
