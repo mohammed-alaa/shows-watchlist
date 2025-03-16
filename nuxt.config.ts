@@ -18,6 +18,7 @@ export default defineNuxtConfig({
 	},
 	runtimeConfig: {
 		PASSWORD_ROUNDS: process.env.PASSWORD_ROUNDS,
+		APP_KEY: process.env.APP_KEY,
 		public: {
 			APP_URL: process.env.APP_URL,
 		},
