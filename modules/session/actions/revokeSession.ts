@@ -1,12 +1,11 @@
 import { eq } from "drizzle-orm";
 import { decodeSession } from "../utils/sessionTokenHandler";
-import { cleanToken } from "../utils/authTokenHandler";
 
 export async function bySession(token: string) {
 	const drizzle = useDrizzle();
 	const config = useRuntimeConfig();
 
-	const decodedToken = decodeSession(config.APP_KEY, cleanToken(token));
+	const decodedToken = decodeSession(config.APP_KEY, token);
 
 	if (decodedToken === null) {
 		return;

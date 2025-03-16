@@ -1,5 +1,5 @@
 import { signSession } from "../utils/sessionTokenHandler";
-import { createToken, buildToken } from "../utils/authTokenHandler";
+import { createToken } from "../utils/authTokenHandler";
 
 export default async function (userId: number) {
 	const drizzle = useDrizzle();
@@ -20,5 +20,5 @@ export default async function (userId: number) {
 		})
 		.execute();
 
-	return buildToken(jwtToken);
+	return jwtToken;
 }

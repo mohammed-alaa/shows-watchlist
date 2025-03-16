@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const auth = useAuthStore();
 
-onNuxtReady(() => auth.init());
+auth.init();
 </script>
 
 <template>

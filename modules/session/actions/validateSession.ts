@@ -1,5 +1,4 @@
 import { decodeSession } from "../utils/sessionTokenHandler";
-import { cleanToken } from "../utils/authTokenHandler";
 import { eq } from "drizzle-orm";
 // TODO: de-couple the use of user DTO
 import User from "@modules/user/dtos/user";
@@ -8,10 +7,10 @@ export default async function (token: string) {
 	const drizzle = useDrizzle();
 	const config = useRuntimeConfig();
 
-	const decodedToken = decodeSession(config.APP_KEY, cleanToken(token));
+	const decodedToken = decodeSession(config.APP_KEY, token);
 
 	if (decodedToken === null) {
-		return;
+		return null;
 	}
 
 	const user = await drizzle

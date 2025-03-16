@@ -1,10 +1,12 @@
 import validateSession from "@modules/session/actions/validateSession";
+import { AUTH } from "@constants";
 
 export default defineEventHandler(async (event) => {
-	const token = getHeader(event, "Authorization");
+	const token = getCookie(event, AUTH.COOKIE_NAME);
 
 	if (!token) {
 		setResponseStatus(event, 401);
+		deleteCookie(event, AUTH.COOKIE_NAME);
 		return;
 	}
 
@@ -12,6 +14,7 @@ export default defineEventHandler(async (event) => {
 
 	if (!user) {
 		setResponseStatus(event, 401);
+		deleteCookie(event, AUTH.COOKIE_NAME);
 		return;
 	}
 

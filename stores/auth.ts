@@ -1,29 +1,18 @@
-const STORAGE_TOKEN_KEY_NAME = "token";
+import { AUTH_COOKIE_NAME, API_ROUTES } from "@constants";
 
 export const useAuthStore = defineStore("auth", () => {
-	const token = ref<string | null>(null);
 	const user = ref<TUser | null>(null);
 
-	const isUserLoggedIn = computed(() => !!token.value);
+	const isUserLoggedIn = computed(() => user.value !== null);
 
 	const { withLoading, isLoading } = useLoading();
 
 	function cleanUpCredentials() {
-		setToken(null);
 		setUser(null);
 	}
 
 	function setUser(_user: TUser | null) {
 		user.value = _user;
-	}
-
-	function setToken(_token: string | null) {
-		token.value = _token;
-		if (_token === null) {
-			localStorage.removeItem(STORAGE_TOKEN_KEY_NAME);
-		} else {
-			localStorage.setItem(STORAGE_TOKEN_KEY_NAME, _token);
-		}
 	}
 
 	async function logout() {
@@ -32,11 +21,8 @@ export const useAuthStore = defineStore("auth", () => {
 		}
 
 		await withLoading(() =>
-			$fetch("/api/logout", {
+			$fetch(API_ROUTES.LOGOUT, {
 				method: "DELETE",
-				headers: {
-					Authorization: token.value!,
-				},
 			}),
 		);
 
@@ -45,36 +31,21 @@ export const useAuthStore = defineStore("auth", () => {
 	}
 
 	async function login(data: TLoginPayload) {
-		const response = await $fetch("/api/login", {
+		const response = await $fetch(API_ROUTES.LOGIN, {
 			method: "POST",
 			body: data,
 		});
 
-		setToken(response.authToken!);
 		setUser(response.user!);
 		return Promise.resolve();
 	}
 
-	function readTokenFromStorageIfExists() {
-		return localStorage.getItem(STORAGE_TOKEN_KEY_NAME);
-	}
-
 	async function validate() {
-		const _token = token.value ?? readTokenFromStorageIfExists();
-
-		if (!_token) {
-			return Promise.resolve();
-		}
 		try {
 			const response = await withLoading(() =>
-				$fetch("/api/validate-token", {
-					headers: {
-						Authorization: _token,
-					},
-				}),
+				$fetch(API_ROUTES.VALIDATE_TOKEN),
 			);
 			setUser(response!.user);
-			setToken(_token);
 		} catch (error) {
 			cleanUpCredentials();
 		}
@@ -83,7 +54,22 @@ export const useAuthStore = defineStore("auth", () => {
 	}
 
 	async function init() {
-		await validate();
+		const cookie = useCookie(AUTH_COOKIE_NAME);
+
+		if (!cookie.value) {
+			return;
+		}
+
+		try {
+			const { data } = await withLoading(() =>
+				useFetch(API_ROUTES.VALIDATE_TOKEN),
+			);
+			setUser(data.value.user);
+		} catch (error) {
+			cleanUpCredentials();
+		}
+
+		return Promise.resolve();
 	}
 
 	return {

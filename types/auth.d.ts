@@ -18,7 +18,6 @@ interface TLoginPayload {
 
 interface TLoginResponsePayload {
 	errors?: Partial<TLoginPayload>;
-	authToken?: string;
 	user?: TUser;
 }
 
