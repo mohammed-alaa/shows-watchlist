@@ -1,6 +1,6 @@
 const STORAGE_TOKEN_KEY_NAME = "token";
 
-export default defineStore("auth", () => {
+export const useAuthStore = defineStore("auth", () => {
 	const token = ref<string | null>(null);
 	const user = ref<TUser | null>(null);
 
@@ -36,6 +36,12 @@ export default defineStore("auth", () => {
 		return Promise.resolve();
 	}
 
+	function readTokenFromStorageIfExists() {
+		const _token = localStorage.getItem(STORAGE_TOKEN_KEY_NAME);
+		if (_token) {
+			token.value = _token;
+		}
+	}
 
 	return {
 		user,
