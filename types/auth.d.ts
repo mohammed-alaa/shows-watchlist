@@ -1,3 +1,5 @@
+type JwtPayload = import("jsonwebtoken").JwtPayload;
+
 interface TRegisterPayload {
 	name: string;
 	email: string;
@@ -15,5 +17,11 @@ interface TLoginPayload {
 }
 
 interface TLoginResponsePayload {
-	errors: Partial<TLoginPayload>;
+	errors?: Partial<TLoginPayload>;
 }
+
+interface TCreateSessionPayload {
+	sessionToken: string;
+}
+
+interface TDecodeSessionOutput extends TCreateSessionPayload, JwtPayload {}
