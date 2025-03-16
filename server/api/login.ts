@@ -4,7 +4,7 @@ import loginFormSchema from "@schemas/loginForm";
 import createSession from "@modules/session/actions/createSession";
 
 export default defineEventHandler(
-	async (event): Promise<TLoginResponsePayload | undefined> => {
+	async (event): Promise<TLoginResponsePayload> => {
 		const payload = await readBody<TRegisterPayload>(event);
 
 		const result = await validateScehma(loginFormSchema, payload);
@@ -41,7 +41,6 @@ export default defineEventHandler(
 
 		const authToken = await createSession(existingUser.getId()!);
 
-		setResponseHeader(event, "Authorization", authToken);
-		sendNoContent(event);
+		return { authToken, user: existingUser.withoutPassword() };
 	},
 );
