@@ -12,7 +12,7 @@ export function getSessionConfig(event: H3Event) {
 			cookie: {
 				httpOnly: true,
 				secure: true,
-				expires: new Date(Date.now() + AUTH.COOKIE_EXPIRES),
+				expires: new Date(Date.now() + AUTH.COOKIE_EXPIRES * 1000),
 			},
 		};
 	}
