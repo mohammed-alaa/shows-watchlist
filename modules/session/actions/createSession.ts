@@ -18,7 +18,12 @@ export default async function (userId: number) {
 			session: sessionToken,
 			userId,
 		})
-		.execute();
+		.onConflictDoUpdate({
+			target: sessionsTable.userId,
+			set: {
+				session: sessionToken,
+			},
+		});
 
 	return jwtToken;
 }
