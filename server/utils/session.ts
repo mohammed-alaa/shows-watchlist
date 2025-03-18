@@ -1,4 +1,5 @@
 import type { H3Event, SessionConfig } from "h3";
+import { AUTH } from "@constants";
 
 let sessionConfig: SessionConfig | null = null;
 
@@ -6,12 +7,12 @@ export function getSessionConfig(event: H3Event) {
 	if (!sessionConfig) {
 		const config = useRuntimeConfig(event);
 		sessionConfig = {
-			name: config.AUTH.COOKIE_NAME,
+			name: AUTH.COOKIE_NAME,
 			password: config.APP_KEY,
 			cookie: {
 				httpOnly: true,
 				secure: true,
-				expires: new Date(Date.now() + config.AUTH.COOKIE_EXPIRES),
+				expires: new Date(Date.now() + AUTH.COOKIE_EXPIRES),
 			},
 		};
 	}
