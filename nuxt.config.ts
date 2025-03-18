@@ -29,6 +29,7 @@ export default defineNuxtConfig({
 	alias: {
 		"@schemas": resolve(__dirname, "schemas"),
 		"@modules": resolve(__dirname, "modules"),
+		"@services": resolve(__dirname, "server", "services"),
 		"@utils": resolve(__dirname, "utils"),
 		"@constants": resolve(__dirname, "constants.ts"),
 	},

@@ -5,6 +5,7 @@
 		"paths": {
 			"@schemas/*": ["../schemas/*"],
 			"@modules/*": ["../modules/*"],
+			"@services/*": ["./services/*"],
 			"@utils/*": ["../utils/*"],
 			"@constants": ["../constants"]
 		}
