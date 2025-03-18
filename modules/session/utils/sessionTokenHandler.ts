@@ -14,6 +14,6 @@ export function decodeSession(
 
 export function signSession(secret: string, payload: TCreateSessionPayload) {
 	return jwt.sign(payload, secret, {
-		expiresIn: Date.now() + AUTH.COOKIE_EXPIRES,
+		expiresIn: AUTH.COOKIE_EXPIRES,
 	});
 }
