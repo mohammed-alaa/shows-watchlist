@@ -11,10 +11,10 @@ export async function getById(id: number): Promise<User | null> {
 		.limit(1);
 
 	if (existingUser.length === 0) {
-		return null;
+		return Promise.resolve(null);
 	}
 
-	return User.fromDb(existingUser[0]);
+	return Promise.resolve(User.fromDb(existingUser[0]));
 }
 
 export async function getByEmail(email: string): Promise<User | null> {
@@ -27,8 +27,8 @@ export async function getByEmail(email: string): Promise<User | null> {
 		.limit(1);
 
 	if (existingUser.length === 0) {
-		return null;
+		return Promise.resolve(null);
 	}
 
-	return User.fromDb(existingUser[0]);
+	return Promise.resolve(User.fromDb(existingUser[0]));
 }
