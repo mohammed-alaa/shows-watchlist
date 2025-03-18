@@ -1,15 +1,14 @@
 import { bySession } from "@modules/session/actions/revokeSession";
-import { AUTH } from "@constants";
 
 export default defineEventHandler(async (event) => {
-	const token = getCookie(event, AUTH.COOKIE_NAME);
+	const { authToken } = await getUserSessionData(event);
 
-	if (!token) {
+	await clearUserSession(event);
+	if (!authToken) {
 		setResponseStatus(event, 401);
-		deleteCookie(event, AUTH.COOKIE_NAME);
 		return;
 	}
 
-	await bySession(token);
+	await bySession(authToken);
 	sendNoContent(event);
 });

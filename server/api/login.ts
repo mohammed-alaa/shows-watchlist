@@ -2,7 +2,6 @@ import { validateScehma } from "@utils/schemaValidator";
 import { getByEmail } from "@modules/user/actions/getUser";
 import loginFormSchema from "@schemas/loginForm";
 import createSession from "@modules/session/actions/createSession";
-import { AUTH } from "@constants";
 
 export default defineEventHandler(
 	async (event): Promise<TLoginResponsePayload> => {
@@ -41,13 +40,7 @@ export default defineEventHandler(
 		}
 
 		const authToken = await createSession(existingUser.getId()!);
-
-		setCookie(event, AUTH.COOKIE_NAME, authToken, {
-			httpOnly: true,
-			secure: true,
-			sameSite: "strict",
-			expires: new Date(Date.now() + AUTH.COOKIE_EXPIRES),
-		});
+		await setUserSessionData(event, { authToken });
 
 		return { user: existingUser.withoutPassword() };
 	},
