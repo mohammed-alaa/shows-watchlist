@@ -27,6 +27,7 @@ export async function getUserSession(event: H3Event) {
 export async function clearUserSession(event: H3Event) {
 	const session = await getUserSession(event);
 	await session.clear();
+	return Promise.resolve();
 }
 
 export async function getUserSessionData(
@@ -45,6 +46,7 @@ export async function setUserSessionData(
 
 	await clearUserSession(event);
 	await session.update(data);
+	return Promise.resolve();
 }
 
 export async function appendUserSessionData(
@@ -57,4 +59,5 @@ export async function appendUserSessionData(
 		...session.data,
 		...data,
 	});
+	return Promise.resolve();
 }
