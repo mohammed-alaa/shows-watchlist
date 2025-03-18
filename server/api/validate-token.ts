@@ -1,5 +1,5 @@
-import validateSession from "@modules/session/actions/validateSession";
 import { AUTH } from "@constants";
+import authTokenValidation from "@services/auth-token-validation";
 
 export default defineEventHandler(async (event) => {
 	const { authToken } = await getUserSessionData(event);
@@ -8,13 +8,11 @@ export default defineEventHandler(async (event) => {
 		return;
 	}
 
-	const user = await validateSession(authToken);
-
-	if (!user) {
+	try {
+		const user = await authTokenValidation(authToken);
+		return { user };
+	} catch (error) {
 		setResponseStatus(event, 401);
 		deleteCookie(event, AUTH.COOKIE_NAME);
-		return;
 	}
-
-	return { user };
 });
