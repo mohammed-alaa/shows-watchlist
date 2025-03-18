@@ -1,6 +1,6 @@
 export const AUTH = {
 	COOKIE_NAME: "authToken",
-	COOKIE_EXPIRES: 1000 * 60 * 2, // 2 minutes
+	COOKIE_EXPIRES: 60 * 2, // 2 minutes
 } as const;
 
 export const API_ROUTES = {
