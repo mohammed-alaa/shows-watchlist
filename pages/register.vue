@@ -36,7 +36,7 @@ useSeoMeta({
 
 definePageMeta({
 	name: "register",
-	auth: true,
+	auth: false,
 });
 </script>
 

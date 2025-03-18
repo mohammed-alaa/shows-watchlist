@@ -30,7 +30,7 @@ useSeoMeta({
 
 definePageMeta({
 	name: "login",
-	auth: true,
+	auth: false,
 });
 </script>
 
