@@ -5,7 +5,6 @@ export default defineEventHandler(async (event) => {
 
 	await clearUserSession(event);
 	if (!authToken) {
-		setResponseStatus(event, 401);
 		return;
 	}
 
