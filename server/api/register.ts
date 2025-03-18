@@ -8,19 +8,18 @@ export default defineEventHandler(
 	async (event): Promise<TRegisterResponsePayload | undefined> => {
 		const payload = await readBody<TRegisterPayload>(event);
 
-		const result = await validateScehma(registerFormSchema, payload);
-
-		if (result !== null) {
+		try {
+			await validateScehma(registerFormSchema, payload);
+		} catch (errors: any) {
 			setResponseStatus(event, 422);
 
 			return {
-				errors: result,
+				errors,
 			};
 		}
 
-		const existingUser = await getByEmail(payload.email);
-
-		if (existingUser !== null) {
+		try {
+			await getByEmail(payload.email);
 			setResponseStatus(event, 400);
 
 			return {
@@ -28,10 +27,15 @@ export default defineEventHandler(
 					email: "User with this email already exists",
 				},
 			};
-		}
+		} catch (error: any) {
+			const userDto = new User(
+				payload.email,
+				payload.name,
+				payload.password,
+			);
 
-		const userDto = new User(payload.email, payload.name, payload.password);
-		await createNewUser(userDto);
-		setResponseStatus(event, 201);
+			await createNewUser(userDto);
+			setResponseStatus(event, 201);
+		}
 	},
 );

@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import User from "../dtos/user";
 
-export async function getById(id: number): Promise<User | null> {
+export async function getById(id: number): Promise<User> {
 	const drizzle = useDrizzle();
 
 	const existingUser = await drizzle
@@ -11,13 +11,13 @@ export async function getById(id: number): Promise<User | null> {
 		.limit(1);
 
 	if (existingUser.length === 0) {
-		return Promise.resolve(null);
+		return Promise.reject();
 	}
 
 	return Promise.resolve(User.fromDb(existingUser[0]));
 }
 
-export async function getByEmail(email: string): Promise<User | null> {
+export async function getByEmail(email: string): Promise<User> {
 	const drizzle = useDrizzle();
 
 	const existingUser = await drizzle
@@ -27,7 +27,7 @@ export async function getByEmail(email: string): Promise<User | null> {
 		.limit(1);
 
 	if (existingUser.length === 0) {
-		return Promise.resolve(null);
+		return Promise.reject();
 	}
 
 	return Promise.resolve(User.fromDb(existingUser[0]));

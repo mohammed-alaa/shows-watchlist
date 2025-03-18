@@ -8,7 +8,7 @@ export async function getByToken(token: string) {
 	const decodedToken = decodeSession(config.APP_KEY, token);
 
 	if (decodedToken === null) {
-		return null;
+		return Promise.reject();
 	}
 
 	const session = await drizzle
@@ -18,7 +18,7 @@ export async function getByToken(token: string) {
 		.limit(1);
 
 	if (session.length === 0) {
-		return Promise.resolve(null);
+		return Promise.reject();
 	}
 
 	return Promise.resolve(session[0]);
@@ -34,7 +34,7 @@ export async function getByUserId(userId: number) {
 		.limit(1);
 
 	if (session.length === 0) {
-		return Promise.resolve(null);
+		return Promise.reject();
 	}
 
 	return Promise.resolve(session[0]);

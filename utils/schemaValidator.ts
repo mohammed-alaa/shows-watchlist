@@ -16,8 +16,8 @@ export async function validateScehma<TData>(
 ): Promise<TData | null> {
 	try {
 		await schema.parseAsync(data);
-		return null;
+		return Promise.resolve(null);
 	} catch (error) {
-		return parseZodErrors(error as ZodError) as TData;
+		return Promise.reject(parseZodErrors(error as ZodError) as TData);
 	}
 }

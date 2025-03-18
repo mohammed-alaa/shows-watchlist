@@ -7,9 +7,9 @@ export default defineEventHandler(
 	async (event): Promise<TLoginResponsePayload> => {
 		const payload = await readBody<TRegisterPayload>(event);
 
-		const result = await validateScehma(loginFormSchema, payload);
-
-		if (result !== null) {
+		try {
+			await validateScehma(loginFormSchema, payload);
+		} catch (result: any) {
 			setResponseStatus(event, 422);
 
 			return {
@@ -17,19 +17,29 @@ export default defineEventHandler(
 			};
 		}
 
-		const existingUser = await getByEmail(payload.email);
+		try {
+			const existingUser = await getByEmail(payload.email);
 
-		if (existingUser === null) {
-			setResponseStatus(event, 400);
+			if (
+				!(await comparePasswords(
+					payload.password,
+					existingUser.password,
+				))
+			) {
+				setResponseStatus(event, 400);
 
-			return {
-				errors: {
-					email: "Invalid credentials!",
-				},
-			};
-		} else if (
-			!(await comparePasswords(payload.password, existingUser.password))
-		) {
+				return {
+					errors: {
+						email: "Invalid credentials!",
+					},
+				};
+			}
+
+			const authToken = await createSession(existingUser.getId()!);
+			await setUserSessionData(event, { authToken });
+
+			return { user: existingUser.withoutPassword() };
+		} catch (error: any) {
 			setResponseStatus(event, 400);
 
 			return {
@@ -38,10 +48,5 @@ export default defineEventHandler(
 				},
 			};
 		}
-
-		const authToken = await createSession(existingUser.getId()!);
-		await setUserSessionData(event, { authToken });
-
-		return { user: existingUser.withoutPassword() };
 	},
 );
