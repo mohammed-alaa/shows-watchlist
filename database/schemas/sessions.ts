@@ -6,6 +6,7 @@ export default pgTable(
 	{
 		session: text().primaryKey().notNull(),
 		userId: integer()
+			.unique()
 			.notNull()
 			.references(() => usersTable.id, {
 				onDelete: "cascade",
@@ -13,7 +14,6 @@ export default pgTable(
 			}),
 	},
 	(table) => [
-		index("index_user_id").on(table.userId),
 		index("index_session_token").on(table.session),
 		index("index_user_id_session_token").on(table.userId, table.session),
 	],
