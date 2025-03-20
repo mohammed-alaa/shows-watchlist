@@ -1,7 +1,7 @@
 import { AUTH, API_ROUTES } from "@constants";
 
 export const useAuthStore = defineStore("auth", () => {
-	const user = ref<TUser | null>(null);
+	const user = useState<TUser | null>("user");
 
 	const isUserLoggedIn = computed(() => user.value !== null);
 
@@ -21,7 +21,7 @@ export const useAuthStore = defineStore("auth", () => {
 		}
 
 		await withLoading(() =>
-			$fetch(API_ROUTES.LOGOUT, {
+			$fetch(withApiPrefix(API_ROUTES.LOGOUT), {
 				method: "DELETE",
 			}),
 		);
@@ -31,7 +31,7 @@ export const useAuthStore = defineStore("auth", () => {
 	}
 
 	async function login(data: TLoginPayload) {
-		const response = await $fetch(API_ROUTES.LOGIN, {
+		const response = await $fetch(withApiPrefix(API_ROUTES.LOGIN), {
 			method: "POST",
 			body: data,
 		});
@@ -43,7 +43,7 @@ export const useAuthStore = defineStore("auth", () => {
 	async function validate() {
 		try {
 			const response = await withLoading(() =>
-				$fetch(API_ROUTES.VALIDATE_TOKEN),
+				$fetch(withApiPrefix(API_ROUTES.VALIDATE_SESSION)),
 			);
 			setUser(response!.user);
 		} catch (error) {
@@ -62,9 +62,9 @@ export const useAuthStore = defineStore("auth", () => {
 
 		try {
 			const { data } = await withLoading(() =>
-				useFetch(API_ROUTES.VALIDATE_TOKEN),
+				useFetch(withApiPrefix(API_ROUTES.VALIDATE_SESSION)),
 			);
-			setUser(data.value.user);
+			setUser(data.value!.user);
 		} catch (error) {
 			cleanUpCredentials();
 		}
