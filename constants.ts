@@ -4,7 +4,7 @@ export const AUTH = {
 } as const;
 
 export const API_ROUTES = {
-	VALIDATE_TOKEN: "/validate-token",
+	VALIDATE_SESSION: "/validate-session",
 	LOGIN: "/login",
 	LOGOUT: "/logout",
 	REGISTER: "/register",
@@ -21,5 +21,5 @@ export const PROTECTED_ROUTES: string[] = ["/", API_ROUTES.LOGOUT];
 export const PUBLIC_ROUTES: string[] = [
 	API_ROUTES.LOGIN,
 	API_ROUTES.REGISTER,
-	API_ROUTES.VALIDATE_TOKEN,
+	API_ROUTES.VALIDATE_SESSION,
 ];
