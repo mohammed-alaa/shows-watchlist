@@ -14,6 +14,7 @@ export async function getByToken(token: string) {
 	const session = await drizzle
 		.select()
 		.from(sessionsTable)
+		.innerJoin(usersTable, eq(sessionsTable.userId, usersTable.id))
 		.where(eq(sessionsTable.session, decodedToken.sessionToken))
 		.limit(1);
 
