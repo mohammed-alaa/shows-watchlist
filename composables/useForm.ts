@@ -24,18 +24,14 @@ export default function <TData extends Record<string, any>>({
 	const hasErrors = computed(() => Object.keys(errors.value).length > 0);
 
 	async function submit() {
-		errors.value = {};
+		setErrors({});
 
-		const result = await validateScehma<TData>(schema, toValue(data));
-
-		if (result !== null) {
-			errors.value = result;
-		}
-
-		if (hasErrors.value) {
-			onError?.(toValue(errors), setErrors);
-		} else {
+		try {
+			await validateScehma<TData>(schema, toValue(data));
 			await onSuccess?.(toValue(data));
+		} catch (result: any) {
+			setErrors(result);
+			onError?.(toValue(errors), setErrors);
 		}
 	}
 
