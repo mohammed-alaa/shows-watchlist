@@ -9,7 +9,8 @@
 		"preview": "nuxt preview",
 		"postinstall": "nuxt prepare",
 		"db:generate": "npx drizzle-kit generate",
-		"db:migrate": "npx drizzle-kit migrate"
+		"db:migrate": "npx drizzle-kit migrate",
+		"start": "node ./.output/server/index.mjs"
 	},
 	"dependencies": {
 		"@pinia/nuxt": "0.10.1",
