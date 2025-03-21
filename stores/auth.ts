@@ -45,7 +45,7 @@ export const useAuthStore = defineStore("auth", () => {
 			const response = await withLoading(() =>
 				$fetch(withApiPrefix(API_ROUTES.VALIDATE_SESSION)),
 			);
-			setUser(response!.user);
+			setUser(response);
 		} catch (error) {
 			cleanUpCredentials();
 		}
@@ -54,17 +54,22 @@ export const useAuthStore = defineStore("auth", () => {
 	}
 
 	async function init() {
+		if (!import.meta.server) {
+			return Promise.resolve();
+		}
+
 		const cookie = useCookie(AUTH.COOKIE_NAME);
 
 		if (!cookie.value) {
-			return;
+			cleanUpCredentials();
+			return Promise.resolve();
 		}
 
 		try {
 			const { data } = await withLoading(() =>
 				useFetch(withApiPrefix(API_ROUTES.VALIDATE_SESSION)),
 			);
-			setUser(data.value!.user);
+			setUser(data.value);
 		} catch (error) {
 			cleanUpCredentials();
 		}
