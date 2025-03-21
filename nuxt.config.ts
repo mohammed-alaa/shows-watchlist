@@ -17,13 +17,13 @@ export default defineNuxtConfig({
 		},
 	},
 	runtimeConfig: {
+		TMDB_API_KEY: process.env.TMDB_API_KEY,
 		PASSWORD_ROUNDS: process.env.PASSWORD_ROUNDS,
 		APP_KEY: process.env.APP_KEY,
 		public: {
 			APP_URL: process.env.APP_URL,
 		},
 	},
-	nitro: { preset: "vercel" },
 	extensions: [".ts", ".vue"],
 	modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt"],
 	alias: {
