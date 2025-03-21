@@ -1,0 +1,15 @@
+version: "2"
+services:
+    app:
+        container_name: app
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes:
+            - .:/app
+            - /app/node_modules
+        ports:
+            - "3000:3000"
+        environment:
+            - NODE_ENV=development
+        command: yarn dev
