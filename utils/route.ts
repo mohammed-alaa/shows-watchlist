@@ -49,6 +49,17 @@ export function isRouteApi(path: string): boolean {
  * @param path The path of the route
  * @returns The path with the API prefix
  */
-export function withApiPrefix<T extends ApiRoute>(path: T): TWithApiPrefix<T> {
-	return `${API_START}${path}`;
+export function withApiPrefix<
+	T extends ApiRoute,
+	TParams extends Record<string, any>,
+>(path: T, params: TParams | null = null): TWithApiPrefix<T> {
+	let url = `${API_START}${path}`;
+
+	if (params !== null) {
+		for (const [key, value] of Object.entries(params)) {
+			url = url.replace(`:${key}`, value as string);
+		}
+	}
+
+	return url as TWithApiPrefix<T>;
 }
