@@ -9,10 +9,11 @@ export function getSessionConfig(event: H3Event) {
 		sessionConfig = {
 			name: AUTH.COOKIE_NAME,
 			password: config.APP_KEY,
+			maxAge: AUTH.COOKIE_EXPIRES,
 			cookie: {
 				httpOnly: true,
 				secure: true,
-				expires: new Date(Date.now() + AUTH.COOKIE_EXPIRES * 1000),
+				maxAge: AUTH.COOKIE_EXPIRES,
 			},
 		};
 	}
