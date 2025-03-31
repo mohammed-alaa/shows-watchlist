@@ -1,6 +1,12 @@
 <script setup lang="ts">
-const { data } = await useFetch("/api/test");
-console.log("data", data.value);
+definePageMeta({
+	name: "index",
+	auth: true,
+});
+
+useSeoMeta({
+	title: "Home",
+});
 </script>
 
 <template>
