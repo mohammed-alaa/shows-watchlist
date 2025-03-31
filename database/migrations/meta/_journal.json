@@ -5,43 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1741446616902,
-      "tag": "0000_ambiguous_fat_cobra",
+      "when": 1743399169724,
+      "tag": "0000_nasty_forge",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1742006706803,
-      "tag": "0001_nosy_nightshade",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1742079792052,
-      "tag": "0002_empty_bloodstrike",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1742082822017,
-      "tag": "0003_easy_raza",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1742285558998,
-      "tag": "0004_mushy_bastion",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1742285815573,
-      "tag": "0005_rainy_nitro",
+      "when": 1743399310211,
+      "tag": "0001_dusty_runaways",
       "breakpoints": true
     }
   ]
