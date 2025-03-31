@@ -8,5 +8,5 @@ export default pgTable(
 		email: varchar({ length: 255 }).notNull(),
 		password: text().notNull(),
 	},
-	(table) => [index("index_email").on(table.email)],
+	(table) => [index().on(table.email)],
 );

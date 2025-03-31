@@ -14,7 +14,7 @@ export default pgTable(
 			}),
 	},
 	(table) => [
-		index("index_session_token").on(table.session),
-		index("index_user_id_session_token").on(table.userId, table.session),
+		index().on(table.session),
+		index().on(table.userId, table.session),
 	],
 );
