@@ -1,28 +1,18 @@
 export default function (initialValue: boolean = false) {
 	const isLoading = ref(initialValue);
 
-	function start() {
-		isLoading.value = true;
-	}
-
-	function stop() {
-		isLoading.value = false;
-	}
-
 	function withLoading<T>(fn: () => Promise<T>) {
-		start();
+		isLoading.value = true;
 
 		try {
 			return fn();
 		} finally {
-			stop();
+			isLoading.value = false;
 		}
 	}
 
 	return {
 		isLoading,
-		start,
-		stop,
 		withLoading,
 	};
 }
