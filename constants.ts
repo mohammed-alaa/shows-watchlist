@@ -1,6 +1,5 @@
 export const AUTH = {
 	COOKIE_NAME: "authToken",
-	COOKIE_EXPIRES: 60 * 2, // 2 minutes
 } as const;
 
 export const API_ROUTES = {
@@ -8,6 +7,8 @@ export const API_ROUTES = {
 	LOGIN: "/login",
 	LOGOUT: "/logout",
 	REGISTER: "/register",
+	SEARCH: "/search",
+	SHOW_DETAILS: "/show-details/:type/:id",
 } as const;
 
 export const AUTH_TOKEN_GENERATOR = {
@@ -16,7 +17,12 @@ export const AUTH_TOKEN_GENERATOR = {
 	TOKEN_ENCODING: "base64",
 } as const;
 
-export const PROTECTED_ROUTES: string[] = ["/", API_ROUTES.LOGOUT];
+export const PROTECTED_ROUTES: string[] = [
+	"/",
+	API_ROUTES.SEARCH,
+	API_ROUTES.SHOW_DETAILS,
+	API_ROUTES.LOGOUT,
+];
 
 export const PUBLIC_ROUTES: string[] = [
 	API_ROUTES.LOGIN,
