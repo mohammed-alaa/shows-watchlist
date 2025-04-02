@@ -3,6 +3,7 @@ import loginFormSchema from "@schemas/loginForm";
 
 const { isLoading, withLoading } = useLoading();
 const { login } = useAuthStore();
+const route = useRoute();
 
 const { data, errors, submit, setErrors } = useForm<TLoginPayload>({
 	schema: loginFormSchema,
@@ -17,7 +18,12 @@ const { data, errors, submit, setErrors } = useForm<TLoginPayload>({
 
 		try {
 			await withLoading(() => login(data));
-			navigateTo({ name: "index" });
+
+			navigateTo(
+				route.query.next
+					? (route.query.next as string)
+					: { name: "index" },
+			);
 		} catch (error: any) {
 			setErrors((error.data as TLoginResponsePayload).errors!);
 		}
