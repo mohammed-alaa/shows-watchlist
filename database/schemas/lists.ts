@@ -1,4 +1,4 @@
-import { pgTable, index, integer, text } from "drizzle-orm/pg-core";
+import { pgTable, index, integer, text, boolean } from "drizzle-orm/pg-core";
 import { usersTable } from "../tables";
 
 export default pgTable(
@@ -12,6 +12,7 @@ export default pgTable(
 				onDelete: "cascade",
 				onUpdate: "no action",
 			}),
+		isWatchList: boolean().notNull().default(false),
 	},
-	(table) => [index().on(table.userId)],
+	(table) => [index().on(table.userId), index().on(table.isWatchList)],
 );
