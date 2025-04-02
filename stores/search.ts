@@ -20,16 +20,13 @@ export const useSearchStore = defineStore("search", () => {
 	async function search() {
 		try {
 			const response = await withLoading(() =>
-				$fetch<TSearchByTitleSuccessfulResponse>(
-					withApiPrefix(API_ROUTES.SEARCH),
-					{
-						method: "POST",
-						query: {
-							page: page.value,
-						},
-						body: toValue(data),
+				$fetch<TSearchByTitleSuccessfulResponse>(API_ROUTES.SEARCH, {
+					method: "POST",
+					query: {
+						page: page.value,
 					},
-				),
+					body: toValue(data),
+				}),
 			);
 
 			totalPages.value = response.total_pages;
