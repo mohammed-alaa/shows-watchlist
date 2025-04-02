@@ -3,6 +3,7 @@ import { validateScehma } from "@utils/schemaValidator";
 import createNewUser from "@modules/user/actions/createNewUser";
 import { getByEmail } from "@modules/user/actions/getUser";
 import registerFormSchema from "@schemas/registerForm";
+import { createWatchList } from "@modules/lists/actions/createList";
 
 export default defineEventHandler(
 	async (event): Promise<TRegisterResponsePayload | undefined> => {
@@ -34,7 +35,8 @@ export default defineEventHandler(
 				payload.password,
 			);
 
-			await createNewUser(userDto);
+			const user = await createNewUser(userDto);
+			await createWatchList(user.getId()!);
 			setResponseStatus(event, 201);
 		}
 	},
