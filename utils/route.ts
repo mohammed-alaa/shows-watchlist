@@ -1,9 +1,6 @@
-import { PROTECTED_ROUTES, PUBLIC_ROUTES, API_ROUTES } from "@constants";
+import { PROTECTED_ROUTES, PROTECTED_PAGES_NAMES } from "@constants";
 
 const API_START = "/api";
-
-type ApiRoute = (typeof API_ROUTES)[keyof typeof API_ROUTES];
-type TWithApiPrefix<T extends ApiRoute> = `${typeof API_START}${T}`;
 
 /**
  * Check if a route is protected
@@ -11,28 +8,35 @@ type TWithApiPrefix<T extends ApiRoute> = `${typeof API_START}${T}`;
  * @param strict If true, the path will be checked as is, otherwise it will be checked as an API route
  * @returns True if the route is protected
  */
-export function isRouteProtected(
-	path: string,
-	strict: boolean = true,
-): boolean {
-	if (!strict && !isRouteApi(path)) {
-		path += API_START;
-	}
-
+export function isRouteProtected(path: string): boolean {
 	return PROTECTED_ROUTES.includes(path);
 }
 
 /**
  * Check if a route is public
  * @param path The path of the route
- * @param strict If true, the path will be checked as is, otherwise it will be checked as
  * @returns True if the route is public
  */
-export function isRoutePublic(path: string, strict: boolean = true): boolean {
-	if (!strict && !isRouteApi(path)) {
-		path += API_START;
-	}
-	return PUBLIC_ROUTES.includes(path);
+export function isRoutePublic(path: string): boolean {
+	return !isRouteProtected(path);
+}
+
+/**
+ * Check if a page is protected
+ * @param name The name of the page
+ * @returns True if the page is protected
+ */
+export function isPageProtected(name: string): boolean {
+	return PROTECTED_PAGES_NAMES.includes(name);
+}
+
+/**
+ * Check if a page is public
+ * @param name The name of the page
+ * @returns True if the page is public
+ */
+export function isPagePublic(name: string): boolean {
+	return !isPageProtected(name);
 }
 
 /**
@@ -45,21 +49,15 @@ export function isRouteApi(path: string): boolean {
 }
 
 /**
- * Add the API prefix to a route
- * @param path The path of the route
- * @returns The path with the API prefix
+ * Substitute route parameters in a path
+ * @param path The path with parameters
+ * @param params The parameters to substitute
+ * @returns The path with the parameters substituted
  */
-export function withApiPrefix<
-	T extends ApiRoute,
-	TParams extends Record<string, any>,
->(path: T, params: TParams | null = null): TWithApiPrefix<T> {
-	let url = `${API_START}${path}`;
-
-	if (params !== null) {
-		for (const [key, value] of Object.entries(params)) {
-			url = url.replace(`:${key}`, value as string);
-		}
+export function substituteRouteParams(path: string, params: object): string {
+	for (const [key, value] of Object.entries(params)) {
+		path = path.replace(`:${key}`, value as string);
 	}
 
-	return url as TWithApiPrefix<T>;
+	return path;
 }
