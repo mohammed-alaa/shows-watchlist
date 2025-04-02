@@ -21,7 +21,7 @@ export const useAuthStore = defineStore("auth", () => {
 		}
 
 		await withLoading(() =>
-			$fetch(withApiPrefix(API_ROUTES.LOGOUT), {
+			$fetch(API_ROUTES.LOGOUT, {
 				method: "DELETE",
 			}),
 		);
@@ -31,7 +31,7 @@ export const useAuthStore = defineStore("auth", () => {
 	}
 
 	async function login(data: TLoginPayload) {
-		const response = await $fetch(withApiPrefix(API_ROUTES.LOGIN), {
+		const response = await $fetch(API_ROUTES.LOGIN, {
 			method: "POST",
 			body: data,
 		});
@@ -43,7 +43,7 @@ export const useAuthStore = defineStore("auth", () => {
 	async function validate() {
 		try {
 			const response = await withLoading(() =>
-				$fetch(withApiPrefix(API_ROUTES.VALIDATE_SESSION)),
+				$fetch(API_ROUTES.VALIDATE_SESSION),
 			);
 			setUser(response);
 		} catch (error) {
@@ -58,20 +58,36 @@ export const useAuthStore = defineStore("auth", () => {
 			return Promise.resolve();
 		}
 
+		const route = useRoute();
 		const cookie = useCookie(AUTH.COOKIE_NAME);
 
 		if (!cookie.value) {
 			cleanUpCredentials();
+
+			if (isPageProtected(route.name as string)) {
+				return navigateTo({
+					name: "login",
+					query: { next: route.fullPath },
+				});
+			}
 			return Promise.resolve();
 		}
 
-		try {
-			const { data } = await withLoading(() =>
-				useFetch(withApiPrefix(API_ROUTES.VALIDATE_SESSION)),
-			);
-			setUser(data.value);
-		} catch (error) {
+		const { data, error } = await withLoading(() =>
+			useFetch(API_ROUTES.VALIDATE_SESSION),
+		);
+
+		if (error.value) {
 			cleanUpCredentials();
+
+			if (isPageProtected(route.name as string)) {
+				return navigateTo({
+					name: "login",
+					query: { next: route.fullPath },
+				});
+			}
+		} else {
+			setUser(data.value);
 		}
 
 		return Promise.resolve();
