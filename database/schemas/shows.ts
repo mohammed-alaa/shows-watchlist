@@ -1,4 +1,4 @@
-import { pgTable, integer, text } from "drizzle-orm/pg-core";
+import { pgTable, integer, text, index } from "drizzle-orm/pg-core";
 
 export default pgTable(
 	"shows",
@@ -7,5 +7,5 @@ export default pgTable(
 		title: text().notNull(),
 		imdbId: text().notNull().unique().unique(),
 	},
-	(table) => [],
+	(table) => [index().on(table.imdbId)],
 );

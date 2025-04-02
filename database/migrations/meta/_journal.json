@@ -15,6 +15,13 @@
       "when": 1743399310211,
       "tag": "0001_dusty_runaways",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1743487465060,
+      "tag": "0002_sad_stingray",
+      "breakpoints": true
     }
   ]
 }

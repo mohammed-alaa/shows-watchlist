@@ -1,0 +1,1 @@
+CREATE INDEX "shows_imdbId_index" ON "shows" USING btree ("imdbId");
