@@ -6,7 +6,6 @@ await getDetails();
 
 definePageMeta({
 	name: "list-details",
-	auth: true,
 	validate: (route) => {
 		return /^\d+$/.test(route.params.id as string);
 	},

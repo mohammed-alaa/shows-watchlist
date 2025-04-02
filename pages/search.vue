@@ -16,7 +16,6 @@ const {
 
 definePageMeta({
 	name: "search",
-	auth: true,
 });
 
 useSeoMeta({

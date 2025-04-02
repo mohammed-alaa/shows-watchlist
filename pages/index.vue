@@ -5,7 +5,6 @@ await getLists();
 
 definePageMeta({
 	name: "index",
-	auth: true,
 });
 
 useSeoMeta({
