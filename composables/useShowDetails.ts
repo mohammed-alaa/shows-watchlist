@@ -1,34 +1,37 @@
 import { API_ROUTES } from "@constants";
 
 export default function (titleId: number, type: TMediaTypes) {
-	const details = useState<TShowDetails<TMediaTypes> | null>("show-details");
-	const { isLoading, withLoading } = useLoading();
+	const details = useState<TShowDetails<TMediaTypes> | null>(
+		"show-details-details",
+		() => null,
+	);
+	// const lists = useState<TList[]>("show-details-lists", () => []);
 
 	async function getDetails() {
-		try {
-			const { data } = await withLoading(() =>
-				useFetch<TShowDetails<TMediaTypes>>(
-					withApiPrefix(API_ROUTES.SHOW_DETAILS, {
-						type,
-						id: titleId,
-					}),
-					{
-						method: "GET",
-					},
-				),
-			);
+		const { data, error } = await useFetch<TShowDetails<TMediaTypes>>(
+			substituteRouteParams(API_ROUTES.SHOW_DETAILS, {
+				type,
+				id: titleId,
+			}),
+			{
+				method: "GET",
+			},
+		);
 
-			console.log("data", data.value);
-			details.value = data.value;
-		} catch (error: any) {
-			// setErrors(error.data.errors);
+		if (error.value) {
+			console.log("getDetails-errors", error.value);
+			return Promise.resolve();
 		}
+
+		details.value = data.value.details;
+		// lists.value = data.value.lists;
+		// setErrors(error.data.errors);
+		return Promise.resolve();
 	}
 
 	return {
 		type,
 		details,
-		isLoading,
 
 		getDetails,
 	};

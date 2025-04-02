@@ -1,13 +1,19 @@
 <script setup lang="ts">
 const auth = useAuthStore();
 
-auth.init();
+await auth.init();
 </script>
 
 <template>
-	<main>
-		<NuxtLayout>
-			<NuxtPage />
-		</NuxtLayout>
-	</main>
+	<Suspense>
+		<template #fallback>
+			<p>Loading...</p>
+		</template>
+
+		<main>
+			<NuxtLayout>
+				<NuxtPage />
+			</NuxtLayout>
+		</main>
+	</Suspense>
 </template>

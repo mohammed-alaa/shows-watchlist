@@ -3,12 +3,12 @@ import TitleDetailsTv from "../../components/title-details-tv.vue";
 import TitleDetailsMovie from "../../components/title-details-movie.vue";
 
 const route = useRoute();
-const { type, details, getDetails, isLoading } = useShowDetails(
+const { type, details, getDetails } = useShowDetails(
 	Number(route.params.id),
 	route.params.type as TMediaTypes,
 );
 
-getDetails();
+await getDetails();
 
 definePageMeta({
 	name: "show-details",
@@ -29,11 +29,12 @@ useSeoMeta({
 </script>
 
 <template>
-	<!-- <div class="flex flex-col p-4 gap-2"> -->
-	<template v-if="isLoading">
-		<p>Loading...</p>
-	</template>
-	<template v-else-if="details">
+	<Suspense>
+		<!-- <div class="flex flex-col p-4 gap-2"> -->
+		<template #fallback>
+			<p>Loading...</p>
+		</template>
+
 		<component
 			:is="
 				type === 'tv'
@@ -44,6 +45,6 @@ useSeoMeta({
 			"
 			:details="details"
 		/>
-	</template>
-	<!-- </div> -->
+		<!-- </div> -->
+	</Suspense>
 </template>
