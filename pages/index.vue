@@ -1,7 +1,8 @@
 <script setup lang="ts">
-const { myLits, hasLists, getLists } = useLists();
+const listStore = useListStore();
+const { hasLists, lists } = storeToRefs(listStore);
 
-await getLists();
+await listStore.retrieveLists();
 
 definePageMeta({
 	name: "index",
@@ -25,9 +26,9 @@ useSeoMeta({
 			</NuxtLink>
 			<template v-if="hasLists">
 				<h2>My Lists</h2>
-				<div class="flex p-4 gap-4">
-					<template v-for="list in myLits" :index="`list-${list.id}`">
-						<div class="border p-4 my-4 rounded">
+				<div class="flex p-4 gap-4 flex-wrap">
+					<template v-for="list in lists" :index="`list-${list.id}`">
+						<div class="border p-4 rounded">
 							<NuxtLink
 								:to="{
 									name: 'list-details',
