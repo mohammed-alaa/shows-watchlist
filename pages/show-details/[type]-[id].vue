@@ -1,23 +1,28 @@
 <script setup lang="ts">
-import TitleDetailsTv from "../../components/title-details-tv.vue";
-import TitleDetailsMovie from "../../components/title-details-movie.vue";
+import TitleDetailsTv from "@components/title-details-tv.vue";
+import TitleDetailsMovie from "@components/title-details-movie.vue";
+import { MEDIATYPES } from "@constants";
 
 const route = useRoute();
-const { type, details, getDetails } = useShowDetails(
-	Number(route.params.id),
-	route.params.type as TMediaTypes,
-);
+const {
+	addToWatchList,
+	removeFromWatchList,
 
-await getDetails();
+	isInWatchList,
+} = useShowListControl();
+const showStore = useShowStore();
+const { details, show } = storeToRefs(showStore);
+
+const type = route.params.type as TMediaTypes;
+
+await showStore.getDetails(Number(route.params.id), type);
 
 definePageMeta({
 	name: "show-details",
 	validate: (route) => {
 		return (
 			/^\d+$/.test(route.params.id as string) &&
-			(["movie", "tv"] as TMediaTypes[]).includes(
-				route.params.type as TMediaTypes,
-			)
+			MEDIATYPES.includes(route.params.type as TMediaTypes)
 		);
 	},
 });
@@ -29,7 +34,6 @@ useSeoMeta({
 
 <template>
 	<Suspense>
-		<!-- <div class="flex flex-col p-4 gap-2"> -->
 		<template #fallback>
 			<p>Loading...</p>
 		</template>
@@ -43,7 +47,9 @@ useSeoMeta({
 						: 'div'
 			"
 			:details="details"
+			:is-in-watchlist="isInWatchList(show?.tmdbId)"
+			@add-to-watch-list="addToWatchList(details!.id, type)"
+			@remove-from-watch-list="removeFromWatchList(details!.id)"
 		/>
-		<!-- </div> -->
 	</Suspense>
 </template>
