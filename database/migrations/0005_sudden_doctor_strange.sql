@@ -1,0 +1,1 @@
+ALTER TABLE "shows" DROP CONSTRAINT "shows_type_unique";

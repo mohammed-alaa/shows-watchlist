@@ -29,6 +29,20 @@
       "when": 1743608302387,
       "tag": "0003_regular_captain_flint",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1743675061210,
+      "tag": "0004_massive_mathemanic",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1743771089381,
+      "tag": "0005_sudden_doctor_strange",
+      "breakpoints": true
     }
   ]
 }
