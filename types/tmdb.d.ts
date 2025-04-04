@@ -139,3 +139,8 @@ interface TShowTypeTvDetails extends TShowDetailsCommon, TTitleTypeTv {
 type TShowDetails<T extends TMediaTypes> = T extends TMediaTypeMovie
 	? TShowTypeMovieDetails
 	: TShowTypeTvDetails;
+
+interface TSearchByImdb {
+	tv_results: Array<TShowDetails<"tv">>;
+	movie_results: Array<TShowDetails<"movie">>;
+}
