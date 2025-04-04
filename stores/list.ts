@@ -4,6 +4,9 @@ export const useListStore = defineStore("list", () => {
 	const lists = useState<TList[]>("list-lists", () => []);
 
 	const hasLists = computed(() => lists.value.length > 0);
+	const watchList = computed(
+		() => lists.value.find((list) => list.isWatchList)!,
+	);
 
 	async function createList(payload: TCreateListPayload) {
 		const { data } = await $fetch(API_ROUTES.CREATE_LIST, {
@@ -30,6 +33,7 @@ export const useListStore = defineStore("list", () => {
 
 	return {
 		lists,
+		watchList,
 		hasLists,
 		createList,
 		retrieveLists,
