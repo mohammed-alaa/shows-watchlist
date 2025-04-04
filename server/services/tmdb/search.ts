@@ -16,7 +16,7 @@ export async function getByTitle(title: string, page: number) {
 	return Promise.resolve(response);
 }
 
-export async function getById<T = TMediaTypes>(id: number, mediaType: T) {
+export async function getById(id: number, mediaType: TMediaTypes) {
 	switch (mediaType) {
 		case "movie":
 			return getMovieDetails(id);
@@ -27,7 +27,7 @@ export async function getById<T = TMediaTypes>(id: number, mediaType: T) {
 	}
 }
 
-async function getMovieDetails(id: number) {
+async function getMovieDetails(id: number): Promise<TShowTypeMovieDetails> {
 	const { TMDB_API_KEY } = useRuntimeConfig();
 	const details = await $fetch<TShowDetails<"movie">>(
 		`https://api.themoviedb.org/3/movie/${id}`,
@@ -46,7 +46,7 @@ async function getMovieDetails(id: number) {
 	return Promise.resolve(details);
 }
 
-async function getShowDetails(id: number) {
+async function getShowDetails(id: number): Promise<TShowTypeTvDetails> {
 	const { TMDB_API_KEY } = useRuntimeConfig();
 	const details = await $fetch<TShowDetails<"tv">>(
 		`https://api.themoviedb.org/3/tv/${id}`,
