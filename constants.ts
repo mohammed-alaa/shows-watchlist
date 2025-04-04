@@ -13,6 +13,9 @@ export const API_ROUTES = {
 	RETRIEVE_LISTS: "/api/lists",
 	CREATE_LIST: "/api/lists",
 	LIST_DETAILS: "/api/lists/:id",
+	DELETE_LIST: "/api/lists/:id",
+	ADD_TO_LIST: "/api/add-to-list",
+	REMOVE_FROM_LIST: "/api/remove-from-list",
 } as const;
 
 export const AUTH_TOKEN_GENERATOR = {
@@ -29,12 +32,19 @@ export const PROTECTED_ROUTES: string[] = [
 	API_ROUTES.RETRIEVE_LISTS,
 	API_ROUTES.CREATE_LIST,
 	API_ROUTES.LIST_DETAILS,
+	API_ROUTES.DELETE_LIST,
+	API_ROUTES.ADD_TO_LIST,
+	API_ROUTES.REMOVE_FROM_LIST,
 ];
 
 export const PROTECTED_PAGES_NAMES: string[] = [
 	"index",
+	"list-details",
 	"create-list",
 	"search",
 	"show-details",
-	"list-details",
 ];
+
+export const MEDIATYPE_TV: TMediaTypeTv = "tv";
+export const MEDIATYPE_MOVIE: TMediaTypeMovie = "movie";
+export const MEDIATYPES: TMediaTypes[] = [MEDIATYPE_TV, MEDIATYPE_MOVIE];
