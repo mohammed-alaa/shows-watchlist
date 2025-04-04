@@ -5,7 +5,8 @@
 		"paths": {
 			"@schemas/*": ["./schemas/*"],
 			"@utils/*": ["../utils/*"],
-			"@constants": ["./constants"]
+			"@constants": ["./constants"],
+			"@components/*": ["./components/*"]
 		}
 	}
 }
