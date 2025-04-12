@@ -48,7 +48,7 @@ definePageMeta({
 			<UInput
 				placeholder="Enter your name"
 				id="name"
-				type="name"
+				type="text"
 				v-model="data.name"
 			/>
 		</UFormField>
