@@ -44,34 +44,26 @@ definePageMeta({
 	<h1>Login</h1>
 
 	<form method="post" class="flex flex-col gap-4" @submit.prevent="submit">
-		<div class="form-control">
-			<label for="email"> Email </label>
-			<input type="email" id="email" v-model="data.email" />
-			<p v-show="errors.email" v-text="errors.email" />
-		</div>
+		<UFormField label="Email" name="email" :error="errors.email">
+			<UInput
+				placeholder="Enter your email"
+				id="email"
+				type="email"
+				v-model="data.email"
+			/>
+		</UFormField>
 
-		<div class="form-control">
-			<label for="password"> Password </label>
-			<input type="password" id="password" v-model="data.password" />
-			<p v-show="errors.password" v-text="errors.password" />
-		</div>
+		<UFormField label="Password" name="password" :error="errors.password">
+			<UInput
+				placeholder="Enter your password"
+				id="password"
+				type="password"
+				v-model="data.password"
+			/>
+		</UFormField>
 
-		<button type="submit" :disabled="isLoading">
+		<UButton type="submit" :disabled="isLoading">
 			{{ isLoading ? "Loading..." : "Submit" }}
-		</button>
+		</UButton>
 	</form>
 </template>
-
-<style scoped>
-.form-control {
-	@apply flex flex-col gap-2;
-}
-
-label[for] {
-	@apply cursor-pointer;
-}
-
-input {
-	@apply px-2 py-1 border border-gray-500 rounded;
-}
-</style>
