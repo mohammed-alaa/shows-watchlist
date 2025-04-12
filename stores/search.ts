@@ -36,16 +36,13 @@ export const useSearchStore = defineStore("search", () => {
 		}
 	}
 
-	async function goToPage(_page: number) {
-		if (_page === page.value) {
-			return;
-		}
-
-		page.value = _page;
+	async function goToPage() {
 		totalPages.value = 1;
 		results.value = [];
 		await search();
 	}
+
+	watch(page, async () => await goToPage());
 
 	return {
 		data,
@@ -57,6 +54,5 @@ export const useSearchStore = defineStore("search", () => {
 		hasErrors,
 		showPagination,
 		submit,
-		goToPage,
 	};
 });

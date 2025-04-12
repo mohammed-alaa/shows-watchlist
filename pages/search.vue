@@ -32,15 +32,16 @@ useSeoMeta({
 			class="flex flex-col gap-4"
 			@submit.prevent="searchStore.submit"
 		>
-			<div class="form-control">
-				<input
-					id="search"
+			<UFormField name="search" :error="errors.search">
+				<UInput
 					placeholder="Search"
-					class="form-control"
+					id="search"
+					type="text"
+					class="w-full"
 					:disabled="isLoading"
 					v-model="data.search"
 				/>
-			</div>
+			</UFormField>
 		</form>
 
 		<template v-if="isLoading">
@@ -68,37 +69,15 @@ useSeoMeta({
 				</template>
 			</div>
 			<template v-if="showPagination">
-				<div
-					class="flex flex-wrap justify-center items-center gap-2 mt-4"
-				>
-					<template
-						v-for="pageNumber in totalPages"
-						:key="`search-page-${pageNumber}`"
-					>
-						<button
-							class="px-4 py-2 rounded"
-							@click="searchStore.goToPage(pageNumber)"
-							:class="{
-								'bg-blue-500 text-white cursor-not-allowed':
-									pageNumber === page,
-								'bg-gray-200': pageNumber !== page,
-							}"
-						>
-							{{ pageNumber }}
-						</button>
-					</template>
-				</div>
+				<UPagination
+					class="grid place-items-center mt-4"
+					show-controls
+					:sibling-count="2"
+					:items-per-page="results.length"
+					:total="totalPages * results.length"
+					v-model:page="page"
+				/>
 			</template>
 		</template>
 	</div>
 </template>
-
-<style scoped>
-.form-control {
-	@apply flex flex-col gap-2;
-}
-
-input {
-	@apply px-2 py-1 border border-gray-500 rounded;
-}
-</style>
