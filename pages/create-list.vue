@@ -14,13 +14,20 @@ useSeoMeta({
 	<h1>Create List</h1>
 
 	<form @submit.prevent="submit">
-		<div class="form-control">
-			<label for="name"> What should this list be called? </label>
-			<input type="name" id="name" v-model="data.name" />
-			<p v-show="errors.name" v-text="errors.name" />
-		</div>
-		<button type="submit" :disabled="isLoading">
+		<UFormField
+			label="What should this list be called?"
+			name="name"
+			:error="errors.name"
+		>
+			<UInput
+				placeholder="Enter list name"
+				id="name"
+				type="text"
+				v-model="data.name"
+			/>
+		</UFormField>
+		<UButton type="submit" :disabled="isLoading">
 			{{ isLoading ? "Loading..." : "Submit" }}
-		</button>
+		</UButton>
 	</form>
 </template>
