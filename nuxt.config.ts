@@ -24,8 +24,9 @@ export default defineNuxtConfig({
 			APP_URL: process.env.APP_URL,
 		},
 	},
+	css: ["./assets/css/base.css"],
 	extensions: [".ts", ".vue"],
-	modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt"],
+	modules: ["@pinia/nuxt", "@nuxt/ui"],
 	alias: {
 		"@schemas": resolve(__dirname, "schemas"),
 		"@modules": resolve(__dirname, "modules"),

@@ -1,5 +1,5 @@
 {
-	"name": "nuxt-app",
+	"name": "shows-watchlist",
 	"private": true,
 	"type": "module",
 	"scripts": {
@@ -13,23 +13,22 @@
 		"start": "node ./.output/server/index.mjs"
 	},
 	"dependencies": {
-		"@pinia/nuxt": "0.10.1",
+		"@nuxt/ui": "^3.0.2",
+		"@pinia/nuxt": "0.11.0",
 		"bcrypt": "^5.1.1",
-		"drizzle-orm": "^0.40.0",
+		"drizzle-orm": "^0.41.0",
 		"jsonwebtoken": "^9.0.2",
-		"nuxt": "^3.16.0",
-		"pinia": "^3.0.1",
+		"nuxt": "^3.16.2",
+		"pinia": "^3.0.2",
 		"postgres": "^3.4.5",
-		"vue": "^3.5.13",
-		"vue-router": "^4.5.0",
 		"zod": "^3.24.2"
 	},
 	"devDependencies": {
-		"@nuxtjs/tailwindcss": "6.13.2",
 		"@types/bcrypt": "^5.0.2",
 		"@types/jsonwebtoken": "^9.0.9",
-		"drizzle-kit": "^0.30.5",
-		"tsx": "^4.19.3"
+		"drizzle-kit": "^0.30.6",
+		"tsx": "^4.19.3",
+		"typescript": "^5.8.3"
 	},
 	"packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
