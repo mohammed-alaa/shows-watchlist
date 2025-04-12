@@ -22,5 +22,7 @@ async function logout() {
 			<NuxtLink :to="{ name: 'login' }">Login</NuxtLink>
 		</template>
 	</nav>
-	<NuxtPage />
+	<UContainer>
+		<NuxtPage />
+	</UContainer>
 </template>
