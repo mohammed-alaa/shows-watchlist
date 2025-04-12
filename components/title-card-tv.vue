@@ -17,13 +17,16 @@ defineProps<{
 				class="h-96 mx-auto"
 				:alt="`Poster of ${item.original_name}`"
 			/>
-			<div class="bg-gray-100 flex-1 flex flex-col p-4">
+			<div class="bg-gray-100 dark:bg-gray-900 flex-1 flex flex-col p-4">
 				<div class="flex gap-2 items-center">
-					<p
-						class="bg-black bg-opacity-70 text-white text-sm px-2 rounded"
-						v-text="'Adult'"
-						v-show="item.adult"
-					/>
+					<template v-if="item.adult">
+						<UBadge
+							color="warning"
+							variant="subtle"
+							v-text="'Adult'"
+						/>
+					</template>
+
 					<p dir="auto" class="flex-1">
 						{{ item.original_name }}
 					</p>
