@@ -1,5 +1,48 @@
 <script setup lang="ts">
+import type { NavigationMenuItem } from "@nuxt/ui";
+
 const auth = useAuthStore();
+
+const authItems: NavigationMenuItem[] = [
+	{
+		label: "Index",
+		icon: "i-lucide-book-open",
+		to: {
+			name: "index",
+		},
+	},
+	{
+		label: "Search",
+		icon: "i-lucide-search",
+		to: {
+			name: "search",
+		},
+	},
+	{
+		label: "Logout",
+		icon: "i-lucide-heart",
+		async onSelect() {
+			await logout();
+		},
+	},
+];
+
+const guestItems: NavigationMenuItem[] = [
+	{
+		label: "Register",
+		icon: "i-lucide-search",
+		to: {
+			name: "register",
+		},
+	},
+	{
+		label: "Login",
+		icon: "i-lucide-heart",
+		to: {
+			name: "login",
+		},
+	},
+];
 
 async function logout() {
 	await auth.logout();
@@ -8,20 +51,15 @@ async function logout() {
 </script>
 
 <template>
-	<nav class="flex gap-4 items-center justify-center">
-		<template v-if="auth.isLoading">
-			<p>Loading...</p>
-		</template>
-		<template v-else-if="auth.isUserLoggedIn">
-			<NuxtLink :to="{ name: 'index' }">Index</NuxtLink>
-			<NuxtLink :to="{ name: 'search' }">Search</NuxtLink>
-			<button @click.prevent="logout">Logout</button>
-		</template>
-		<template v-else>
-			<NuxtLink :to="{ name: 'register' }">Register</NuxtLink>
-			<NuxtLink :to="{ name: 'login' }">Login</NuxtLink>
-		</template>
-	</nav>
+	<template v-if="auth.isLoading">
+		<p>Loading...</p>
+	</template>
+	<template v-else>
+		<UNavigationMenu
+			:items="auth.isUserLoggedIn ? authItems : guestItems"
+			class="w-full justify-center"
+		/>
+	</template>
 	<UContainer>
 		<NuxtPage />
 	</UContainer>
