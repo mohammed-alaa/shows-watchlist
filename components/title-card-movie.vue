@@ -11,8 +11,14 @@ defineProps<{
 			params: { type: item.media_type, id: item.id },
 		}"
 	>
-		<div class="rounded-md border flex flex-col shadow-lg shadow-red-100">
-			<img
+		<div
+			class="rounded-md border flex flex-col overflow-hidden"
+			:class="{
+				'shadow-lg shadow-red-100': item.adult,
+			}"
+		>
+			<NuxtImg
+				loading="lazy"
 				:src="'https://image.tmdb.org/t/p/original/' + item.poster_path"
 				class="h-96 mx-auto"
 				:alt="`Poster of ${item.original_title}`"
