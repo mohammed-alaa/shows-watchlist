@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const route = useRoute();
-const { details, getDetails } = useListDetails(Number(route.params.id));
+const { list, shows, getDetails } = useListDetails(Number(route.params.id));
 
 await getDetails();
 
@@ -12,7 +12,7 @@ definePageMeta({
 });
 
 useSeoMeta({
-	title: `List Details - ${details.value.name}`,
+	title: `List Details - ${list.value?.name}`,
 });
 </script>
 
@@ -22,8 +22,38 @@ useSeoMeta({
 			<p>Loading...</p>
 		</template>
 
-		<div class="flex flex-col p-4 gap-2">
-			<h1>{{ details.name }}</h1>
+		<div>
+			<div class="flex flex-col p-4">
+				<h1>{{ list?.name }}</h1>
+			</div>
+
+			<div class="flex flex-col p-4">
+				<template v-if="shows.length">
+					<template
+						v-for="show in shows"
+						:key="`list-details-shows-show-${show.id}`"
+					>
+						<NuxtLink
+							:to="{
+								name: 'show-details',
+								params: { id: show.tmdbId, type: show.type },
+							}"
+						>
+							{{ show.title }}
+						</NuxtLink>
+					</template>
+				</template>
+				<template v-else>
+					<p>
+						<span
+							>Your list is empty. Start adding shows
+							by&nbsp;</span
+						>
+						<NuxtLink :to="{ name: 'search' }">searching</NuxtLink>
+						<span>.</span>
+					</p>
+				</template>
+			</div>
 		</div>
 	</Suspense>
 </template>
