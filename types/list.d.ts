@@ -8,3 +8,8 @@ interface TList {
 interface TCreateListPayload {
 	name: string;
 }
+
+interface TListWithShows {
+	list: TList;
+	shows: TShow[];
+}
