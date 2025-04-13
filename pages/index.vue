@@ -14,19 +14,21 @@ useSeoMeta({
 </script>
 
 <template>
-	<h1>Index Page</h1>
-	<Suspense>
+	<Suspense suspensible>
 		<template #fallback>
-			<p>Loading...</p>
+			<UIcon name="line-md:loading-twotone-loop" />
 		</template>
 
 		<div>
-			<NuxtLink :to="{ name: 'create-list' }">
-				<button>Create a New List</button>
-			</NuxtLink>
 			<template v-if="hasLists">
-				<h2>My Lists</h2>
-				<div class="flex p-4 gap-4 flex-wrap">
+				<div class="flex justify-between items-center">
+					<h1>My Lists</h1>
+					<NuxtLink :to="{ name: 'create-list' }">
+						<UButton label="Create a New List" />
+					</NuxtLink>
+				</div>
+
+				<div class="flex gap-4 flex-wrap">
 					<template v-for="list in lists" :index="`list-${list.id}`">
 						<div class="border p-4 rounded">
 							<NuxtLink
@@ -42,7 +44,13 @@ useSeoMeta({
 				</div>
 			</template>
 			<template v-else>
-				<p>No lists found</p>
+				<h1>My Lists</h1>
+				<div class="flex flex-col justify-between items-center gap-2">
+					<p>No lists found.</p>
+					<NuxtLink :to="{ name: 'create-list' }" size="xl">
+						<UButton label="Create a New List" />
+					</NuxtLink>
+				</div>
 			</template>
 		</div>
 	</Suspense>
