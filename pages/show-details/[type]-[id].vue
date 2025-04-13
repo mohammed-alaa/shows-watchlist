@@ -13,6 +13,7 @@ const {
 	isShowInList,
 	addToList,
 	removeFromList,
+	isLoading,
 } = useShowListControl();
 const showStore = useShowStore();
 const { details, show } = storeToRefs(showStore);
@@ -38,6 +39,14 @@ const dropdownMenuLists = computed<DropdownMenuItem[]>(() => {
 		},
 	}));
 });
+
+async function onWatchListButtonClick() {
+	if (isInWatchList(details.value.id!)) {
+		await removeFromWatchList(details.value.id!);
+	} else {
+		await addToWatchList(details.value.id!, type);
+	}
+}
 
 definePageMeta({
 	name: "show-details",
@@ -71,14 +80,36 @@ useSeoMeta({
 			:details="details"
 		>
 			<template #save-to-lists>
-				<UDropdownMenu :items="dropdownMenuLists">
+				<UButtonGroup>
 					<UButton
-						label="Save"
-						icon="i-lucide-menu"
-						color="info"
-						variant="outline"
-					/>
-				</UDropdownMenu>
+						variant="subtle"
+						label="Watch List"
+						:color="
+							isInWatchList(details.id!) ? 'error' : 'success'
+						"
+						:icon="
+							isInWatchList(details.id!)
+								? 'i-lucide-check'
+								: 'i-lucide-plus'
+						"
+						:loading="isLoading"
+						:disabled="isLoading"
+						@click="onWatchListButtonClick"
+					>
+					</UButton>
+					<UDropdownMenu
+						:items="dropdownMenuLists"
+						:disabled="isLoading"
+					>
+						<UButton
+							label="Save"
+							icon="i-lucide-menu"
+							color="info"
+							variant="outline"
+							:loading="isLoading"
+						/>
+					</UDropdownMenu>
+				</UButtonGroup>
 			</template>
 		</component>
 	</Suspense>
