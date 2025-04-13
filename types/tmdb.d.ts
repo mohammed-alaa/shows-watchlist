@@ -80,7 +80,9 @@ interface TTitleTypeMovie extends TTitleCommon {
 	release_date: string;
 }
 
-type TSearchTitleDataResponse<T = TTitleTypeTv | TTitleTypeMovie> = T;
+type TSearchTitleDataResponse<T = TMediaTypeMovie> = T extends TMediaTypeMovie
+	? TTitleTypeMovie
+	: TTitleTypeTv;
 
 interface TSearchByTitleSuccessfulResponse<T = TMediaTypes> {
 	page: number;
