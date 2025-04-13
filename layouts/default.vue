@@ -6,7 +6,7 @@ const auth = useAuthStore();
 const authItems: NavigationMenuItem[] = [
 	{
 		label: "Index",
-		icon: "i-lucide-book-open",
+		icon: "ic:baseline-home",
 		to: {
 			name: "index",
 		},
@@ -20,7 +20,7 @@ const authItems: NavigationMenuItem[] = [
 	},
 	{
 		label: "Logout",
-		icon: "i-lucide-heart",
+		icon: "codicon:sign-out",
 		async onSelect() {
 			await logout();
 		},
@@ -30,14 +30,14 @@ const authItems: NavigationMenuItem[] = [
 const guestItems: NavigationMenuItem[] = [
 	{
 		label: "Register",
-		icon: "i-lucide-search",
+		icon: "lucide:user-plus",
 		to: {
 			name: "register",
 		},
 	},
 	{
 		label: "Login",
-		icon: "i-lucide-heart",
+		icon: "material-symbols:login-rounded",
 		to: {
 			name: "login",
 		},
@@ -51,16 +51,21 @@ async function logout() {
 </script>
 
 <template>
-	<template v-if="auth.isLoading">
-		<p>Loading...</p>
-	</template>
-	<template v-else>
-		<UNavigationMenu
-			:items="auth.isUserLoggedIn ? authItems : guestItems"
-			class="w-full justify-center"
-		/>
-	</template>
-	<UContainer>
-		<NuxtPage />
-	</UContainer>
+	<div class="flex flex-col min-h-screen">
+		<div class="flex-none">
+			<template v-if="auth.isLoading">
+				<p>Loading...</p>
+			</template>
+			<template v-else>
+				<UNavigationMenu
+					:items="auth.isUserLoggedIn ? authItems : guestItems"
+					class="w-full justify-center"
+				/>
+			</template>
+		</div>
+		<UContainer class="flex-grow">
+			<NuxtPage />
+		</UContainer>
+		<AppFooter />
+	</div>
 </template>
