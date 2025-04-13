@@ -26,7 +26,11 @@ export default function () {
 			}),
 		);
 
-		show.value!.lists.push(entry);
+		if (!show.value!.lists) {
+			show.value!.lists = [entry];
+		} else {
+			show.value!.lists.push(entry);
+		}
 	}
 
 	async function removeFromList(
