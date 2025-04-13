@@ -2,7 +2,7 @@ import { API_ROUTES } from "@constants";
 
 export default function () {
 	const { isLoading, withLoading } = useLoading();
-	const { watchList, hasLists } = storeToRefs(useListStore());
+	const { watchList, hasLists, lists } = storeToRefs(useListStore());
 	const showStore = useShowStore();
 	const { show } = storeToRefs(showStore);
 
@@ -47,10 +47,14 @@ export default function () {
 			}),
 		);
 
-		show.value!.lists = show.value!.lists.filter(
-			(list) =>
-				list.showId !== entry.showId && list.listId === entry.listId,
-		);
+		show.value!.lists =
+			show.value!.lists?.filter(
+				(list) =>
+					!(
+						list.listId === entry.listId &&
+						list.showId === entry.showId
+					),
+			) ?? [];
 	}
 
 	async function addToWatchList(
@@ -86,6 +90,7 @@ export default function () {
 	}
 
 	return {
+		lists,
 		isLoading,
 		addToList,
 		addToWatchList,
