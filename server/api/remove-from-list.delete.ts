@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
 		const show = await byTmdbId(showTmdbId);
 		const entry = await removeFromList(user.getId()!, listId, show!.id);
 
-		return { entry };
+		return entry;
 	} catch (error: any) {
 		console.log("test", error);
 		return Promise.reject();
