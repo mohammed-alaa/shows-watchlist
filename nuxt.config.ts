@@ -26,7 +26,7 @@ export default defineNuxtConfig({
 	},
 	css: ["./assets/css/base.css"],
 	extensions: [".ts", ".vue"],
-	modules: ["@pinia/nuxt", "@nuxt/ui"],
+	modules: ["@pinia/nuxt", "@nuxt/ui", "@nuxt/image"],
 	alias: {
 		"@schemas": resolve(__dirname, "schemas"),
 		"@modules": resolve(__dirname, "modules"),
