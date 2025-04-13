@@ -1,88 +1,74 @@
 <script setup lang="ts">
+import TitleDetails from "../layouts/title-details.vue";
+
 defineProps<{
-	details: TShowDetails<"movie">;
+	details: TShowDetails<TMediaTypeMovie>;
 }>();
 </script>
 
 <template>
-	<div
-		class="relative border-y bg-cover bg-no-repeat bg-center"
-		:style="{
-			backgroundImage: `url('https://image.tmdb.org/t/p/original/${details.backdrop_path}')`,
-		}"
+	<TitleDetails
+		type="movie"
+		:languages-length="details.spoken_languages?.length ?? 0"
+		:countries-length="details.original_country?.length ?? 0"
+		:genres-length="details.genres.length"
+		:backdrop-path="details.backdrop_path"
 	>
-		<div class="bg-black bg-opacity-70">
-			<div class="text-white grid md:grid-cols-2 place-items-center p-8">
-				<img
-					:src="
-						'https://image.tmdb.org/t/p/original/' +
-						details.poster_path
-					"
-					class="rounded-md w-2/4"
-					:alt="`Poster of ${details.original_title}`"
-				/>
-				<div class="flex flex-col justify-center gap-2">
-					<div>
-						<h1 class="text-xl font-bold">
-							{{ details.original_title }}
-						</h1>
-						<p>{{ details.tagline }}</p>
-					</div>
-					<p>{{ details.overview }}</p>
-					<p>{{ details.runtime }} minutes</p>
-					<p>{{ details.status }} @ {{ details.release_date }}</p>
-					<p>${{ details.budget }}</p>
+		<template #logo>
+			<NuxtImg
+				loading="lazy"
+				:src="
+					'https://image.tmdb.org/t/p/original/' + details.poster_path
+				"
+				class="rounded-md w-2/4"
+				:alt="`Poster of ${details.original_title}`"
+			/>
+		</template>
+		<template #title-name>
+			{{ details.original_title }}
+		</template>
+		<template #tagline>
+			{{ details.tagline }}
+		</template>
+		<template #actions>
+			<slot name="save-to-lists" />
+		</template>
+		<template #overview>
+			{{ details.overview }}
+		</template>
+		<template #info>
+			<p>{{ details.runtime }} minutes</p>
+			<p>{{ details.status }} @ {{ details.release_date }}</p>
+			<p>${{ details.budget }}</p>
+		</template>
 
-					<div class="flex items-center gap-1 text-sm">
-						<a target="_blank" :href="details.homepage">
-							Homepage
-						</a>
-						<a
-							target="_blank"
-							:href="`https://www.imdb.com/title/${details.external_ids.imdb_id}`"
-						>
-							IMDB
-						</a>
-					</div>
-					<div class="flex flex-wrap gap-1">
-						<template
-							v-for="genre in details.genres"
-							:key="`genre-${genre.id}`"
-						>
-							<Chip :text="genre.name" />
-						</template>
-					</div>
+		<template #links>
+			<a target="_blank" :href="details.homepage"> Homepage </a>
+			<a
+				target="_blank"
+				:href="`https://www.imdb.com/title/${details.external_ids.imdb_id}`"
+			>
+				IMDB
+			</a>
+		</template>
 
-					<div class="flex flex-warp gap-1">
-						<template
-							v-for="country in details.original_country"
-							:key="`country-${country}`"
-						>
-							<Chip :text="country" />
-						</template>
-					</div>
+		<template #genre-name="{ genre }">
+			{{ details.genres[genre].name }}
+		</template>
+		<template #country-name="{ country }">
+			{{ details.original_country[country] }}
+		</template>
+		<template #language-name="{ language }">
+			{{ details.spoken_languages[language].english_name }}
+		</template>
 
-					<div class="flex flex-wrap gap-1">
-						<template
-							v-for="language in details.spoken_languages"
-							:key="`sl-${language.english_name}`"
-						>
-							<Chip :text="language.english_name" />
-						</template>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="flex flex-wrap gap-2">
-		<p>Posters</p>
-		<div class="overflow-x-auto flex gap-4 px-8 py-4">
+		<template #posters>
 			<template
 				v-for="poster in details.images.posters"
 				:key="poster.file_path"
 			>
-				<img
+				<NuxtImg
+					loading="lazy"
 					:src="
 						'https://image.tmdb.org/t/p/original/' +
 						poster.file_path
@@ -94,16 +80,14 @@ defineProps<{
 					:alt="`Poster of ${details.original_title}`"
 				/>
 			</template>
-		</div>
-	</div>
-	<div class="flex flex-wrap gap-4">
-		<p>Backdrops</p>
-		<div class="overflow-x-auto flex gap-4 px-2 py-4">
+		</template>
+		<template #backdrops>
 			<template
 				v-for="backdrop in details.images.backdrops"
 				:key="backdrop.file_path"
 			>
-				<img
+				<NuxtImg
+					loading="lazy"
 					:src="
 						'https://image.tmdb.org/t/p/original/' +
 						backdrop.file_path
@@ -115,11 +99,8 @@ defineProps<{
 					:alt="`Backdrop of ${details.original_title}`"
 				/>
 			</template>
-		</div>
-	</div>
-	<div class="flex flex-wrap gap-4">
-		<p>Videos</p>
-		<div class="overflow-x-auto flex gap-4 px-2 py-4">
+		</template>
+		<template #videos v-if="false">
 			<template
 				v-for="video in details.videos.results"
 				:key="`videos-${video.id}`"
@@ -132,6 +113,14 @@ defineProps<{
 					/>
 				</div>
 			</template>
-		</div>
-	</div>
+		</template>
+		<template #recommendations>
+			<template
+				v-for="recommendation in details.recommendations.results"
+				:key="recommendation.id"
+			>
+				<title-card-movie :item="recommendation" />
+			</template>
+		</template>
+	</TitleDetails>
 </template>
