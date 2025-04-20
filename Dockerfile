@@ -1,5 +1,5 @@
 # Use Node.js 20.18.2 as base image
-FROM node:20.18.2-alpine as build-stage
+FROM node:20.18.2-alpine AS build-stage
 
 # Set the working directory
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . /app
 RUN yarn build
 
 # Use Node.js 20.18.2 as base image
-FROM node:20.18.2-alpine as production-stage
+FROM node:20.18.2-alpine AS production-stage
 
 # Set the working directory
 WORKDIR /app
