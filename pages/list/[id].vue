@@ -1,6 +1,9 @@
 <script setup lang="ts">
 const route = useRoute();
-const { list, shows, getDetails } = useListDetails(Number(route.params.id));
+const { list, shows, getDetails, deleteList } = useListDetails(
+	Number(route.params.id),
+);
+const { removeFromList } = useShowListControl();
 
 await getDetails();
 
@@ -23,24 +26,48 @@ useSeoMeta({
 		</template>
 
 		<div>
-			<div class="flex flex-col p-4">
+			<div class="flex justify-between items-center">
 				<h1>{{ list?.name }}</h1>
+				<UButton
+					color="error"
+					v-bind="{
+						icon: list.isWatchList
+							? 'ic:sharp-clear'
+							: 'i-heroicons-trash',
+						label: list.isWatchList ? 'Empty' : 'Delete',
+					}"
+					@click="deleteList(list.id)"
+				/>
 			</div>
 
-			<div class="flex flex-col p-4">
+			<div class="flex flex-col py-4 gap-4">
 				<template v-if="shows.length">
 					<template
 						v-for="show in shows"
 						:key="`list-details-shows-show-${show.id}`"
 					>
-						<NuxtLink
-							:to="{
-								name: 'show-details',
-								params: { id: show.tmdbId, type: show.type },
-							}"
-						>
-							{{ show.title }}
-						</NuxtLink>
+						<div class="grid grid-cols-2 grid-rows-1 items-center">
+							<NuxtLink
+								class="flex-1"
+								:to="{
+									name: 'show-details',
+									params: {
+										id: show.tmdbId,
+										type: show.type,
+									},
+								}"
+							>
+								{{ show.title }}
+							</NuxtLink>
+							<UButton
+								size="xs"
+								class="w-fit"
+								color="error"
+								label="Remove"
+								icon="ic:outline-remove"
+								@click="removeFromList(show.tmdbId, list.id)"
+							/>
+						</div>
 					</template>
 				</template>
 				<template v-else>
@@ -49,7 +76,9 @@ useSeoMeta({
 							>Your list is empty. Start adding shows
 							by&nbsp;</span
 						>
-						<NuxtLink :to="{ name: 'search' }">searching</NuxtLink>
+						<NuxtLink :to="{ name: 'search' }">
+							<UButton label="searching" size="xs" />
+						</NuxtLink>
 						<span>.</span>
 					</p>
 				</template>
